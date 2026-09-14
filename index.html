@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="Guide3D: A Bi-planar X-ray Dataset for 3D Shape Reconstruction." name="description"/>
+  <meta content="X-ray, 3D Shape Reconstruction" name="keywords"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Efficient Human-Contact Representation for Human-Scene Interaction
+  </title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
+  <link href="./static/css/bulma.min.css" rel="stylesheet"/>
+  <link href="./static/css/bulma-carousel.min.css" rel="stylesheet"/>
+  <link href="./static/css/bulma-slider.min.css" rel="stylesheet"/>
+  <link href="./static/css/fontawesome.all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" rel="stylesheet"/>
+  <link href="./static/css/index.css" rel="stylesheet"/>
+  <link href="./static/images/aioz.svg" rel="icon"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+  </script>
+  <script defer="" src="./static/js/fontawesome.all.min.js">
+  </script>
+  <script src="./static/js/bulma-carousel.min.js">
+  </script>
+  <script src="./static/js/bulma-slider.min.js">
+  </script>
+  <script src="./static/js/index.js">
+  </script>
+  <style>
+   /* Page-specific table styling */
+table {
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: "Times New Roman", serif;
+  font-size: 14px;
+  text-align: center;
+  table-layout: auto;
+}
+
+th,
+td {
+  padding: 6px 10px;
+  vertical-align: middle;
+}
+
+/* Table header borders */
+thead tr:first-child {
+  border-top: 2px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+thead tr:nth-child(2) {
+  border-bottom: 1px solid #000;
+}
+
+thead tr:last-child {
+  border-bottom: 2px solid #000;
+}
+
+/* Bottom border */
+tbody tr:last-child {
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+/* Vertical separators */
+th:first-child,
+td:first-child {
+  border-right: 1px solid #000;
+}
+
+th:last-child,
+td:last-child {
+  border-left: 1px solid #000;
+}
+
+/* Highlighting */
+.improvement {
+  color: #4cae2b;
+}
+
+.ours {
+  background-color: #eeeeee;
+}
+
+.ours td {
+  font-weight: bold;
+}
+
+
+/* Subsection headings and responsive figures */
+.subsection-title {
+  text-align: left;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.publication-video img,
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+  </style>
+ </head>
+ <body>
+  <section class="hero">
+   <div class="hero-body">
+    <div class="container is-max-desktop">
+     <div class="columns is-centered">
+      <div class="column has-text-centered">
+       <h1 class="title is-1 publication-title">
+        Efficient Human-Contact Representation for Human-Scene Interaction
+       </h1>
+       <div class="is-size-5 publication-authors">
+        <span class="author-block">
+         <a href="https://www.linkedin.com/in/nghiavuhuu/">
+          Nghia Vu
+         </a>
+         <sup>
+          1,*
+         </sup>
+         ,
+        </span>
+        <span class="author-block">
+         <a href="https://scholar.google.com/citations?user=qCcSKkMAAAAJ&amp;hl=en">
+          Tuong Do
+         </a>
+         <sup>
+          1,2,3*
+         </sup>
+         ,
+        </span>
+        <span class="author-block">
+         <a href="https://scholar.google.com/citations?user=KU9vgMcAAAAJ&amp;hl=en" rel="noopener" target="_blank">
+          Binh X. Nguyen
+         </a>
+         <sup>
+          1
+         </sup>
+         ,
+        </span>
+        <span class="author-block">
+         <a href="https://sg.linkedin.com/in/erman-tjiputra">
+          Erman Tjiputra
+         </a>
+         <sup>
+          1
+         </sup>
+         ,
+        </span>
+        <span class="author-block">
+         <a href="https://cgi.csc.liv.ac.uk/~anguyen/">
+          Anh Nguyen
+         </a>
+         <sup>
+          2
+         </sup>
+         ,
+        </span>
+       </div>
+       <!--/ Intro Image. -->
+       <div class="is-size-5 publication-authors">
+        <span class="author-block">
+         <sup>
+          1
+         </sup>
+         <b>
+          AIOZ, Singapore
+         </b>
+        </span>
+        <br/>
+        <span class="author-block">
+         <sup>
+          2
+         </sup>
+         <b>
+          University of Liverpool, UK
+         </b>
+        </span>
+        <br/>
+        <span class="author-block">
+         <sup>
+          3
+         </sup>
+         <b>
+          National Tsing Hua University, Taiwan
+         </b>
+        </span>
+        <br/>
+        <div class="is-centered has-text-centered">
+         <div class="publication-links">
+          <!-- PDF Link. -->
+          <span class="link-block">
+           <a class="external-link button is-normal is-rounded is-dark" href="">
+            <span class="icon">
+             <i class="fas fa-file-pdf">
+             </i>
+            </span>
+            <span>
+             Paper
+            </span>
+           </a>
+          </span>
+          <span class="link-block">
+           <a class="external-link button is-normal is-rounded is-dark" href="">
+            <span class="icon">
+             <i class="ai ai-arxiv">
+             </i>
+            </span>
+            <span>
+             arXiv
+            </span>
+           </a>
+          </span>
+          <!-- Video Link. 
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>-->
+          <!-- Code Link. -->
+          <span class="link-block">
+           <a class="external-link button is-normal is-rounded is-dark" href="">
+            <span class="icon">
+             <i class="fab fa-github">
+             </i>
+            </span>
+            <span>
+             Code
+            </span>
+           </a>
+          </span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <section class="section">
+   <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+     <div class="column is-four-fifths">
+      <h2 class="title is-3">
+       Abstract
+      </h2>
+      <div class="content has-text-justified">
+       Human-scene interaction is an active research topic with several industrial applications in virtual reality, gaming, robotics, and surveillance. Despite significant progress in network architectures to improve the results or optimize models' parameters for fast inference speed, the efficient representation of contact between humans and their environments remains an open challenge. In this paper, we propose a new efficient human-contact representation for human-scene interaction. Our primary contribution is the introduction of sparse contact masks that strategically select essential contact information, significantly reducing redundant data in high-dimensional inputs. Leveraging this efficient contact representation, we propose a suite of sparse operators to replace traditional dense operators within deep network layers for faster computation. Our approach not only enhances computational speed but also filters out non-essential contact data, thereby improving the precision of human-scene interaction models. To validate the effectiveness of our method, we conduct intensive experiments across three public benchmark datasets, focusing on two critical tasks for human-scene interaction: contact prediction and scene synthesis. The experimental results show that our approach outperforms state-of-the-art models in reconstruction accuracy and achieves a computation speed-up of at least 12 times over recent baselines.
+      </div>
+     </div>
+    </div>
+    <section class="section">
+     <div class="container">
+      <!-- Dataset. -->
+      <div class="columns is-centered has-text-centered">
+       <div class="column is-four-fifths">
+        <h2 class="title">
+         Methodology
+        </h2>
+        <div class="content has-text-justified">
+         We propose Efficent Contact Representation (ECO), a contact-aware sparse representation framework for efficient human-scene interaction modeling. Our key insight is that physical interactions are inherently sparse, as only a small subset of human vertices actively participates in contact with the surrounding environment. By explicitly identifying informative contact regions through sparse contact masks and combining them with sparse operators, ECO effectively reduces representation redundancy while preserving interaction-critical information.
+         <div>
+          <img alt="Methodology overview" loading="lazy" src="static/figures/method.png"/>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="section">
+     <div class="container">
+      <div class="columns is-centered has-text-centered">
+       <div class="column is-four-fifths">
+        <h2 class="title">
+         Dataset
+        </h2>
+        <div class="content has-text-justified">
+         We use PROXD, GIMO, and BEHAVE datasets for contact prediction task. In all datasets, human bodies are modeled by SMPL-X format, and then downsampled to 655 vertices. In the PROXD dataset, the contact labels are from PROX-E dataset.
+        </div>
+        <div class="content has-text-justified">
+         In scene synthesis task, we use PROXD and GIMO datasets.
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="section">
+     <div class="container">
+      <!-- Dataset. -->
+      <div class="columns is-centered has-text-centered">
+       <div class="column is-four-fifths">
+        <h2 class="title">
+         Experiments
+        </h2>
+        <h3 class="title subsection-title">
+         Contact prediction
+        </h3>
+        <div class="content has-text-justified">
+         Table below shows the comparison between our method and other baselines. This table indicates that our model surpasses all other baselines by a large margin with a reconstruction accuracy of 93.69%, and a consistency score of 0.981. Furthermore, our inference speed is 0.009 second/sample, which is 12 times faster than the fastest baseline.
+        </div>
+        <table>
+         <thead>
+          <tr>
+           <th rowspan="3">
+            Methods
+           </th>
+           <th colspan="6">
+            Datasets
+           </th>
+           <th rowspan="3">
+            Inference Speed
+            <br/>
+            (s/sample)
+           </th>
+          </tr>
+          <tr>
+           <th colspan="2">
+            <i>
+             PROXD
+            </i>
+           </th>
+           <th colspan="2">
+            <i>
+             GIMO
+            </i>
+           </th>
+           <th colspan="2">
+            <i>
+             BEHAVE
+            </i>
+           </th>
+          </tr>
+          <tr>
+           <th>
+            <i>
+             Reconstruction
+             <br/>
+             Accuracy (%)
+            </i>
+           </th>
+           <th>
+            <i>
+             Consistency
+             <br/>
+             Score
+            </i>
+           </th>
+           <th>
+            <i>
+             Reconstruction
+             <br/>
+             Accuracy (%)
+            </i>
+           </th>
+           <th>
+            <i>
+             Consistency
+             <br/>
+             Score
+            </i>
+           </th>
+           <th>
+            <i>
+             Reconstruction
+             <br/>
+             Accuracy (%)
+            </i>
+           </th>
+           <th>
+            <i>
+             Consistency
+             <br/>
+             Score
+            </i>
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <td>
+            LSTM
+           </td>
+           <td>
+            90.91
+            <br/>
+            <span class="improvement">
+             (+2.78)
+            </span>
+           </td>
+           <td>
+            0.921
+            <span class="improvement">
+             (+0.06)
+            </span>
+           </td>
+           <td>
+            83.2
+            <br/>
+            <span class="improvement">
+             (+8.9)
+            </span>
+           </td>
+           <td>
+            0.814
+            <span class="improvement">
+             (+0.129)
+            </span>
+           </td>
+           <td>
+            80.8
+            <br/>
+            <span class="improvement">
+             (+13.0)
+            </span>
+           </td>
+           <td>
+            0.766
+            <span class="improvement">
+             (+0.107)
+            </span>
+           </td>
+           <td>
+            0.17
+           </td>
+          </tr>
+          <tr>
+           <td>
+            POSA
+           </td>
+           <td>
+            91.12
+            <br/>
+            <span class="improvement">
+             (+2.57)
+            </span>
+           </td>
+           <td>
+            0.882
+            <span class="improvement">
+             (+0.099)
+            </span>
+           </td>
+           <td>
+            89.9
+            <br/>
+            <span class="improvement">
+             (+2.2)
+            </span>
+           </td>
+           <td>
+            0.909
+            <span class="improvement">
+             (+0.034)
+            </span>
+           </td>
+           <td>
+            89.7
+            <br/>
+            <span class="improvement">
+             (+4.1)
+            </span>
+           </td>
+           <td>
+            0.854
+            <span class="improvement">
+             (+0.019)
+            </span>
+           </td>
+           <td>
+            0.28
+           </td>
+          </tr>
+          <tr>
+           <td>
+            ContactFormer
+           </td>
+           <td>
+            91.27
+            <br/>
+            <span class="improvement">
+             (+2.42)
+            </span>
+           </td>
+           <td>
+            0.952
+            <span class="improvement">
+             (+0.029)
+            </span>
+           </td>
+           <td>
+            90.7
+            <br/>
+            <span class="improvement">
+             (+1.4)
+            </span>
+           </td>
+           <td>
+            0.912
+            <span class="improvement">
+             (+0.031)
+            </span>
+           </td>
+           <td>
+            91.1
+            <br/>
+            <span class="improvement">
+             (+2.7)
+            </span>
+           </td>
+           <td>
+            0.845
+            <span class="improvement">
+             (+0.028)
+            </span>
+           </td>
+           <td>
+            0.20
+           </td>
+          </tr>
+          <tr>
+           <td>
+            MIME
+           </td>
+           <td>
+            90.97
+            <br/>
+            <span class="improvement">
+             (+2.72)
+            </span>
+           </td>
+           <td>
+            0.902
+            <span class="improvement">
+             (+0.079)
+            </span>
+           </td>
+           <td>
+            89.9
+            <br/>
+            <span class="improvement">
+             (+2.2)
+            </span>
+           </td>
+           <td>
+            0.911
+            <span class="improvement">
+             (+0.032)
+            </span>
+           </td>
+           <td>
+            90.2
+            <br/>
+            <span class="improvement">
+             (+3.6)
+            </span>
+           </td>
+           <td>
+            0.854
+            <span class="improvement">
+             (+0.019)
+            </span>
+           </td>
+           <td>
+            0.54
+           </td>
+          </tr>
+          <tr>
+           <td>
+            PIAL-Net
+           </td>
+           <td>
+            90.94
+            <br/>
+            <span class="improvement">
+             (+1.65)
+            </span>
+           </td>
+           <td>
+            0.953
+            <span class="improvement">
+             (+0.028)
+            </span>
+           </td>
+           <td>
+            91.1
+            <br/>
+            <span class="improvement">
+             (+1.0)
+            </span>
+           </td>
+           <td>
+            0.934
+            <span class="improvement">
+             (+0.009)
+            </span>
+           </td>
+           <td>
+            90.8
+            <br/>
+            <span class="improvement">
+             (+3.9)
+            </span>
+           </td>
+           <td>
+            0.864
+            <span class="improvement">
+             (+0.009)
+            </span>
+           </td>
+           <td>
+            2.97
+           </td>
+          </tr>
+          <tr>
+           <td>
+            HOT
+           </td>
+           <td>
+            90.9
+            <br/>
+            <span class="improvement">
+             (+2.79)
+            </span>
+           </td>
+           <td>
+            0.966
+            <span class="improvement">
+             (+0.015)
+            </span>
+           </td>
+           <td>
+            90.3
+            <br/>
+            <span class="improvement">
+             (+1.8)
+            </span>
+           </td>
+           <td>
+            0.900
+            <span class="improvement">
+             (+0.043)
+            </span>
+           </td>
+           <td>
+            91.7
+            <br/>
+            <span class="improvement">
+             (+2.1)
+            </span>
+           </td>
+           <td>
+            0.821
+            <span class="improvement">
+             (+0.052)
+            </span>
+           </td>
+           <td>
+            1.12
+           </td>
+          </tr>
+          <tr>
+           <td>
+            TRUMANS
+           </td>
+           <td>
+            90.7
+            <br/>
+            <span class="improvement">
+             (+2.99)
+            </span>
+           </td>
+           <td>
+            0.962
+            <span class="improvement">
+             (+0.019)
+            </span>
+           </td>
+           <td>
+            90.9
+            <br/>
+            <span class="improvement">
+             (+1.2)
+            </span>
+           </td>
+           <td>
+            0.889
+            <span class="improvement">
+             (+0.054)
+            </span>
+           </td>
+           <td>
+            90.4
+            <br/>
+            <span class="improvement">
+             (+3.4)
+            </span>
+           </td>
+           <td>
+            0.844
+            <span class="improvement">
+             (+0.029)
+            </span>
+           </td>
+           <td>
+            2.47
+           </td>
+          </tr>
+          <tr class="ours">
+           <td>
+            <strong>
+             ECO (ours)
+            </strong>
+           </td>
+           <td>
+            <strong>
+             93.69
+            </strong>
+           </td>
+           <td>
+            <strong>
+             0.981
+            </strong>
+           </td>
+           <td>
+            <strong>
+             92.1
+            </strong>
+           </td>
+           <td>
+            <strong>
+             0.943
+            </strong>
+           </td>
+           <td>
+            <strong>
+             93.8
+            </strong>
+           </td>
+           <td>
+            <strong>
+             0.873
+            </strong>
+           </td>
+           <td>
+            <strong>
+             0.009
+            </strong>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+        <h3 class="title subsection-title">
+         Scene synthesis
+        </h3>
+        <div class="content has-text-justified">
+         We report the comparisons between scene synthesis results in the below table. Our method surpasses all techniques with a clear margin.
+        </div>
+        <table>
+         <thead>
+          <tr>
+           <th rowspan="2">
+            Methods
+           </th>
+           <th colspan="2">
+            Dataset
+           </th>
+          </tr>
+          <tr>
+           <th>
+            <i>
+             PROXD
+            </i>
+           </th>
+           <th>
+            <i>
+             GIMO
+            </i>
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <td>
+            ContactICP
+           </td>
+           <td>
+            0.654
+            <span class="improvement">
+             (+0.332)
+            </span>
+           </td>
+           <td>
+            0.820
+            <span class="improvement">
+             (+0.149)
+            </span>
+           </td>
+          </tr>
+          <tr>
+           <td>
+            PosePriors
+           </td>
+           <td>
+            0.703
+            <span class="improvement">
+             (+0.283)
+            </span>
+           </td>
+           <td>
+            0.798
+            <span class="improvement">
+             (+0.171)
+            </span>
+           </td>
+          </tr>
+          <tr>
+           <td>
+            SUMMON
+           </td>
+           <td>
+            0.851
+            <span class="improvement">
+             (+0.135)
+            </span>
+           </td>
+           <td>
+            0.951
+            <span class="improvement">
+             (+0.018)
+            </span>
+           </td>
+          </tr>
+          <tr>
+           <td>
+            MIME
+           </td>
+           <td>
+            0.897
+            <span class="improvement">
+             (+0.089)
+            </span>
+           </td>
+           <td>
+            0.938
+            <span class="improvement">
+             (+0.031)
+            </span>
+           </td>
+          </tr>
+          <tr>
+           <td>
+            SceneDiffuser
+           </td>
+           <td>
+            0.914
+            <span class="improvement">
+             (+0.072)
+            </span>
+           </td>
+           <td>
+            0.942
+            <span class="improvement">
+             (+0.027)
+            </span>
+           </td>
+          </tr>
+          <tr>
+           <td>
+            INFERACT
+           </td>
+           <td>
+            0.945
+            <span class="improvement">
+             (+0.041)
+            </span>
+           </td>
+           <td>
+            0.937
+            <span class="improvement">
+             (+0.032)
+            </span>
+           </td>
+          </tr>
+          <tr class="ours">
+           <td>
+            <strong>
+             ECO (ours)
+            </strong>
+           </td>
+           <td>
+            <strong>
+             0.986
+            </strong>
+           </td>
+           <td>
+            <strong>
+             0.969
+            </strong>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+     <section class="section">
+      <div class="columns is-centered has-text-centered">
+       <div class="column is-four-fifths">
+        <h2 class="title">
+         Visualization
+        </h2>
+        <!-- We propose Algorithm below for training a foundation model within a decentralized federated learning process, effectively addressing the issue of the unseen data problem.  -->
+        <div class="publication-video">
+         <figure>
+          <img alt="cars peace" loading="lazy" src="static/figures/contact_comparison.png"/>
+          <figcaption>
+           Contact prediction visualization. The first row includes the contact notation and inputs while the second row shows prediction results. Our method shows reasonable predictions while other baselines cannot differentiate among actions.
+          </figcaption>
+         </figure>
+        </div>
+        <figure>
+         <img alt="cars peace" loading="lazy" src="static/figures/scene_synthesis_comparison.png"/>
+         <figcaption>
+          Scene synthesis visualization between different methods. Our method efficiently utilizes predicted contacts to produce more reasonable and comprehensive scenes.
+         </figcaption>
+        </figure>
+       </div>
+      </div>
+     </section>
+     <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+       <h2 class="title">
+        BibTeX
+       </h2>
+       <pre><code>  Coming soon ... </code></pre>
+      </div>
+     </section>
+    </section>
+   </div>
+  </section>
+  <footer class="footer">
+   <div class="container">
+    <div class="columns is-centered">
+     <div class="column is-8">
+      <div class="content">
+       <p>
+        The website template was borrowed from
+        <a href="https://github.com/nerfies/nerfies.github.io">
+         Nerfies
+        </a>
+        . We would like to thank Keunhong Park for sharing the template.
+       </p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </footer>
+ </body>
+</html>
