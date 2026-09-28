@@ -99,7 +99,8 @@ body {
     border-radius: 15px !important;
 }
 
-.publication-video iframe {
+.publication-video iframe,
+.publication-video video {
     position: absolute;
     top: 0;
     left: 0;
